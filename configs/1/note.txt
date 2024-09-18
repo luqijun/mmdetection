@@ -1,0 +1,12 @@
+
+
+shha-deformable-detr_r50_16xb2-50e_coco.py---使用img特征作为decoder查询向量，query_feature_level=2，8个points/query。 best mae=60.78
+shha-deformable-detr_r50_16xb2-50e_coco1.py---使用img特征作为decoder查询向量，query_feature_level=1，4个points/query。 best mae=63.35
+shha-deformable-detr_r50_16xb2-50e_coco1_1.py---使用img特征作为decoder查询向量，query_feature_level=2，16个points/query。 best mae=63.94
+shha-deformable-detr_r50_16xb2-50e_coco1_2.py---使用img特征作为decoder查询向量，query_feature_level=2，4个points/query。  best mae=66.28
+
+
+shha-deformable-detr_r50_16xb2-50e_coco2.py ---使用原始的300个query, 每个query生12个点。 best mae=63.35
+
+
+shha-deformable-detr_r50_16xb2-50e_coco_encoder---仅仅使用encoder，1个point/像素特征。 best mae=65.88

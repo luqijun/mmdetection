@@ -9,7 +9,7 @@ from .grid_assigner import GridAssigner
 from .hungarian_assigner import HungarianAssigner
 from .iou2d_calculator import BboxOverlaps2D, BboxOverlaps2D_GLIP
 from .match_cost import (BBoxL1Cost, BinaryFocalLossCost, ClassificationCost,
-                         CrossEntropyLossCost, DiceCost, FocalLossCost,
+                         CrossEntropyLossCost, DiceCost, FocalLossCost, ScoreLossCost, PointLossCost,
                          IoUCost)
 from .max_iou_assigner import MaxIoUAssigner
 from .multi_instance_assigner import MultiInstanceAssigner
@@ -20,13 +20,17 @@ from .task_aligned_assigner import TaskAlignedAssigner
 from .topk_hungarian_assigner import TopkHungarianAssigner
 from .uniform_assigner import UniformAssigner
 
+
+from .crowd_hungarian_assigner import Crowd_HungarianAssigner
+
 __all__ = [
     'BaseAssigner', 'BinaryFocalLossCost', 'MaxIoUAssigner',
     'ApproxMaxIoUAssigner', 'AssignResult', 'PointAssigner', 'ATSSAssigner',
     'CenterRegionAssigner', 'GridAssigner', 'HungarianAssigner',
     'RegionAssigner', 'UniformAssigner', 'SimOTAAssigner',
     'TaskAlignedAssigner', 'TopkHungarianAssigner', 'BBoxL1Cost',
-    'ClassificationCost', 'CrossEntropyLossCost', 'DiceCost', 'FocalLossCost',
+    'ClassificationCost', 'CrossEntropyLossCost', 'DiceCost', 'FocalLossCost', 'ScoreLossCost', 'PointLossCost',
     'IoUCost', 'BboxOverlaps2D', 'DynamicSoftLabelAssigner',
-    'MultiInstanceAssigner', 'BboxOverlaps2D_GLIP'
+    'MultiInstanceAssigner', 'BboxOverlaps2D_GLIP',
+    'Crowd_HungarianAssigner'
 ]

@@ -332,6 +332,90 @@ class FocalLossCost(BaseMatchCost):
 
 
 @TASK_UTILS.register_module()
+class ScoreLossCost(BaseMatchCost):
+    """PointLossCost.
+
+    Args:
+        alpha (Union[float, int]): focal_loss alpha. Defaults to 0.25.
+        gamma (Union[float, int]): focal_loss gamma. Defaults to 2.
+        eps (float): Defaults to 1e-12.
+        binary_input (bool): Whether the input is binary. Currently,
+            binary_input = True is for masks input, binary_input = False
+            is for label input. Defaults to False.
+        weight (Union[float, int]): Cost weight. Defaults to 1.
+    """
+
+    def __init__(self,
+                 binary_input: bool = False,
+                 weight: Union[float, int] = 1.) -> None:
+        super().__init__(weight=weight)
+        self.binary_input = binary_input
+
+    def __call__(self,
+                 pred_instances: InstanceData,
+                 gt_instances: InstanceData,
+                 img_meta: Optional[dict] = None,
+                 **kwargs) -> Tensor:
+        """Compute match cost.
+
+        Args:
+            pred_instances (:obj:`InstanceData`): Predicted instances which
+                must contain ``scores`` or ``masks``.
+            gt_instances (:obj:`InstanceData`): Ground truth which must contain
+                ``labels`` or ``mask``.
+            img_meta (Optional[dict]): Image information. Defaults to None.
+
+        Returns:
+            Tensor: Match Cost matrix of shape (num_preds, num_gts).
+        """
+        pred_scores = pred_instances.scores.softmax(-1)
+        repeat_len = len(gt_instances.labels)
+        pred_scores = pred_scores[:, -1:].repeat(1, repeat_len)
+        return -pred_scores * self.weight
+
+@TASK_UTILS.register_module()
+class PointLossCost(BaseMatchCost):
+    """PointLossCost.
+
+    Args:
+        alpha (Union[float, int]): focal_loss alpha. Defaults to 0.25.
+        gamma (Union[float, int]): focal_loss gamma. Defaults to 2.
+        eps (float): Defaults to 1e-12.
+        binary_input (bool): Whether the input is binary. Currently,
+            binary_input = True is for masks input, binary_input = False
+            is for label input. Defaults to False.
+        weight (Union[float, int]): Cost weight. Defaults to 1.
+    """
+
+    def __init__(self,
+                 binary_input: bool = False,
+                 weight: Union[float, int] = 1.) -> None:
+        super().__init__(weight=weight)
+        self.binary_input = binary_input
+
+    def __call__(self,
+                 pred_instances: InstanceData,
+                 gt_instances: InstanceData,
+                 img_meta: Optional[dict] = None,
+                 **kwargs) -> Tensor:
+        """Compute match cost.
+
+        Args:
+            pred_instances (:obj:`InstanceData`): Predicted instances which
+                must contain ``scores`` or ``masks``.
+            gt_instances (:obj:`InstanceData`): Ground truth which must contain
+                ``labels`` or ``mask``.
+            img_meta (Optional[dict]): Image information. Defaults to None.
+
+        Returns:
+            Tensor: Match Cost matrix of shape (num_preds, num_gts).
+        """
+        pred_points = pred_instances.bboxes
+        gt_points = gt_instances.bboxes
+        loss = torch.cdist(pred_points, gt_points, p=2)
+        return loss * self.weight
+
+@TASK_UTILS.register_module()
 class BinaryFocalLossCost(FocalLossCost):
 
     def _focal_loss_cost(self, cls_pred: Tensor, gt_labels: Tensor) -> Tensor:

@@ -24,11 +24,14 @@ from .transforms import (Albu, CachedMixUp, CachedMosaic, CopyPaste, CutOut,
                          SegRescale, YOLOXHSVRandomAug)
 from .wrappers import MultiBranch, ProposalBroadcaster, RandomOrder
 
+from .loading_crowd import (LoadAnnotationsCrowd)
+from .transforms_crowd import (RandomFlipCrowd)
+
 __all__ = [
     'PackDetInputs', 'ToTensor', 'ImageToTensor', 'Transpose',
-    'LoadImageFromNDArray', 'LoadAnnotations', 'LoadPanopticAnnotations',
+    'LoadImageFromNDArray', 'LoadAnnotations', 'LoadAnnotationsCrowd', 'LoadPanopticAnnotations',
     'LoadMultiChannelImageFromFiles', 'LoadProposals', 'Resize', 'RandomFlip',
-    'RandomCrop', 'SegRescale', 'MinIoURandomCrop', 'Expand',
+    'RandomCrop', 'RandomFlipCrowd', 'SegRescale', 'MinIoURandomCrop', 'Expand',
     'PhotoMetricDistortion', 'Albu', 'InstaBoost', 'RandomCenterCropPad',
     'AutoAugment', 'CutOut', 'ShearX', 'ShearY', 'Rotate', 'Color', 'Equalize',
     'Brightness', 'Contrast', 'TranslateX', 'TranslateY', 'RandomShift',
